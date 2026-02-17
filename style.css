@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* color vars */
+:root {
+    --black: #111112;
+    --gray: #3b3b3d;
+    --green: #528c4d;
+    --yellow: #b59e3a;
+    --white: #ffffff;
+
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black);
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+}
+
+h1 { 
+    color:var(--white);
+    text-transform: uppercase;
+}
+
+.game {
+    /* determine size */
+    width: 350px;
+    height: 420px;
+    /* create grid */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+}
+
+.button {
+    color:var(--gray);
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--white);
+}
+
+.box {
+    border: 2px solid var(--gray);
+    /* center text in box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* style text */
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+
+/* comomon styles for all states of box */
+.box.wrong, .box.correct, .box.inword {
+    color: var(--white);
+    transition: 0.5s ease-in-out;
+    transform: rotatex(180deg);
+}
+
+/* boxes styled based on state */
+.box.wrong {
+    background-color: var(--gray);
+    border-color: var(--gray);
+}
+
+.box.correct {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.box.inword {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+/* flip letter back */
+.box.correct > *,
+.box.wrong > *,
+.box.inword > * {
+    transition: 0.5s ease-in-out;
+    transform: rotateX(180deg);
+}
+
+ /* WIN SCREEN */
+.message {
+    position: absolute;
+    display: none;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 2rem;
+    text-align: center;
+}
