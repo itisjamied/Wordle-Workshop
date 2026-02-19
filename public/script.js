@@ -108,7 +108,40 @@ function checkLost(){
     showMessage(`Game Over! The word was ${secretWord.join("")}`);
 }
 
-function checkGuess(){
+// 🔴 function to send request to dictionaruy api with entered word
+async function isRealWord(word) {
+  try {
+    const response = await fetch( `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
+    // if response is 404, then it's not a word, return false
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("API error:", error);
+    return false;
+  }
+}
+
+// 🔴 make check guess async
+async function checkGuess(){
+
+  // 🔴 check guess is real first
+  const guessedWord = currentGuess.join("");
+
+  // 🔥 Check if word is real FIRST
+  const valid = await isRealWord(guessedWord);
+
+  if (!valid) {
+    showMessage("Not a real word!");
+    return false;
+  }
+
+  hideMessage();
+
+
+
     // loop once per letter in the secret word
     for (let i = 0; i < secretWord.length; i++) {
     // find correct index + elemtned ( based on index)
@@ -131,6 +164,8 @@ function checkGuess(){
     if (!gameOver && currentRow === rows) {
     checkLost();
     }
+
+    return true;
 }
 
 /********************
@@ -138,7 +173,8 @@ Input loop (event listener)
 ********************/
 
 // keydown event, e = event object, 
-document.addEventListener("keydown", (e) => {
+// 🔴 listener must be async to await for checkguess
+document.addEventListener("keydown", async (e) => {
 if (gameOver) return;
     // e.key = key that was pressed
     const key = e.key;
@@ -167,11 +203,14 @@ if (gameOver) return;
   // check , enter key? not over the row limit, and @ the end of the row
   if ( key === "Enter" && currentBox === rowEnd(currentRow)) {
 
-    checkGuess();
-    if (!gameOver) {
+    const wasValid = await checkGuess();
+
+
+    // 🔴 listener must be async to await for checkguess
+    if (wasValid && !gameOver) {
         currentRow++;
         currentGuess = [];
-        currentBox = columns * (currentRow - 1);
+        currentBox = rowStart(currentRow);
     }
     return;
 }
