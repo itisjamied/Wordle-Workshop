@@ -1,69 +1,108 @@
-// get the game container
-const gameContainer = document.querySelector('.game');
+/********************
+ DOM + constants
+********************/
 
-// create 6 rows with 5 boxes each (30 total boxes)
+// get the game container + message container
+const gameContainer = document.querySelector('.game');
+const message = document.querySelector(".message");
+
+// set global constants
 const secretWord = ["C", "R", "A", "N", "E"];
 const rows = 6;
 const columns = 5;
 
+/********************
+Build board
+********************/
+
+function createBoard() {
 // for loop, initalize; condition; expression
-for (let i = 0; i < rows * columns; i++) {
-    const box = document.createElement('div');
-    box.className = 'box';
+// create 6 rows with 5 boxes each (30 total boxes)
+  for (let i = 0; i < rows * columns; i++) {
+    const box = document.createElement("div");
+    box.className = "box";
     gameContainer.appendChild(box);
+  }
 }
 
+createBoard();
 const boxes = document.querySelectorAll(".box");
 
-// currentBox = which box we’re currently filling (index numbers = 0 to 29)
-let currentBox = 0;
-let currentRow = 1;
-let currentColumn = 0;
-let currentGuess = [];
 
+/********************
+Game state (changes)
+ ********************/
+let currentBox = 0; 
+let currentRow = 1;
+let currentGuess = [];
+let gameOver = false;
+
+/********************
+Helpers (small math)
+********************/
+function rowStart(row) {
+  return columns * (row - 1);
+}
+function rowEnd(row) {
+  return columns * row;
+}
+
+/********************
+UI helpers
+********************/
+function showMessage(text) {
+  message.textContent = text;
+  message.style.display = "block";
+}
+function hideMessage() {
+  message.style.display = "none";
+}
+
+
+/********************
+Game logic
+ ********************/
 function resetGame() {
-    // set variables back to initial values
+    // set state variables back to initial values
     currentBox = 0;
     currentRow = 1;
-    currentColumn = 0;
     currentGuess = [];
+    gameOver = false;
     // reset box content and styles visually
     boxes.forEach(box => {
         box.textContent = "";
         box.classList.remove("correct", "inword", "wrong");
     });
-    // reset message
-    const message = document.querySelector(".message");
-    message.style.display = "none";
+    hideMessage();
 }
 
 function checkWin() {
     if (currentGuess.join("") === secretWord.join("")) {
-        const message = document.querySelector(".message");
+        gameOver = true;
         if (currentRow === 1) {
-            message.textContent = `Incredible! You guessed the word on your first try!`;
+            showMessage("Incredible! You guessed the word on your first try!");
         } else {
-        message.textContent = `Congrats! You win in ${currentRow} guesses!`;
+            showMessage(`Congrats! You win in ${currentRow} guesses!`);
         }
-        message.style.display = "block";
-        document.removeEventListener("keydown");
     }
-    else return;
 }
 
 function checkLoose(){
-        const message = document.querySelector(".message");
-        message.textContent = `Game Over! The word was ${secretWord.join("")}`;
-        message.style.display = "block";
-        document.removeEventListener("keydown");
+    gameOver = true;
+    showMessage(`Game Over! The word was ${secretWord.join("")}`);
 }
 
 function checkGuess(){
+    // loop once per letter in the secret word
     for (let i = 0; i < secretWord.length; i++) {
-        const boxIndex = (currentRow - 1) * columns + i;
-        const box = boxes[boxIndex];
-        const letter = currentGuess[i];
+    // find correct index + elemtned ( based on index)
+    const boxIndex = rowStart(currentRow) + i;
+    const box = boxes[boxIndex];
 
+    // get letter from "i" position in guess
+    const letter = currentGuess[i];
+
+        //style accoridngly 
         if (letter === secretWord[i]) {
             box.classList.add("correct");
         } else if (secretWord.includes(letter)) {
@@ -73,29 +112,35 @@ function checkGuess(){
         }
     }
     checkWin();
-    if (currentRow === rows) {
-       checkLoose();
+    if (!gameOver && currentRow === rows) {
+    checkLoose();
     }
 }
 
+/********************
+Input loop (event listener)
+********************/
 
+// keydown event, e = event object, 
 document.addEventListener("keydown", (e) => {
-  const key = e.key;
+if (gameOver) return;
+    // e.key = key that was pressed
+    const key = e.key;
 
   // if key is length 1, and is a letter z upper case or lowercase
-  if (key.length === 1 && key.match(/[a-z]/i)) {
+    if (key.length === 1 && key.match(/[a-z]/i)) {
     // if (currentBox < boxes.length) {
-    if (currentBox < (columns * currentRow)){
-        boxes[currentBox].innerHTML = `<span class="letter"> ${key.toUpperCase() } </span>`;
-        currentBox++;
-        currentGuess = [...currentGuess, key.toUpperCase()];
-    }
+        if (currentBox < rowEnd(currentRow)){
+            boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
+            currentBox++;
+            currentGuess = [...currentGuess, key.toUpperCase()];
+        }
     return;
-  }
+    }
 
   //  if they hit backspace
   if (key === "Backspace") {
-    if (currentBox > (columns * (currentRow -1))) {
+    if (currentBox > rowStart(currentRow)) {
       currentBox--;
       boxes[currentBox].textContent = "";
       currentGuess.pop();
@@ -104,14 +149,14 @@ document.addEventListener("keydown", (e) => {
   }
 
   // check , enter key? not over the row limit, and @ the end of the row
-  if ( key === "Enter" && currentRow <= rows && currentBox === (columns * currentRow)) {
+  if ( key === "Enter" && currentBox === rowEnd(currentRow)) {
 
     checkGuess();
-
-    currentRow++;
-    currentGuess = []; 
-    currentBox = columns * (currentRow - 1);
-  }
-
+    if (!gameOver) {
+        currentRow++;
+        currentGuess = [];
+        currentBox = columns * (currentRow - 1);
+    }
+    return;
+}
 });
-
