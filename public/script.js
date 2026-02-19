@@ -87,7 +87,7 @@ function checkWin() {
     }
 }
 
-function checkLoose(){
+function checkLost(){
     gameOver = true;
     showMessage(`Game Over! The word was ${secretWord.join("")}`);
 }
@@ -113,7 +113,7 @@ function checkGuess(){
     }
     checkWin();
     if (!gameOver && currentRow === rows) {
-    checkLoose();
+    checkLost();
     }
 }
 
