@@ -7,9 +7,18 @@ const gameContainer = document.querySelector('.game');
 const message = document.querySelector(".message");
 
 // set global constants
-const secretWord = ["C", "R", "A", "N", "E"];
+// const secretWord = ["C", "R", "A", "N", "E"];
 const rows = 6;
 const columns = 5;
+
+const WORDS = [
+  "CRANE",
+  "PLANT",
+  "SHARE",
+  "BRICK",
+  "MOUSE",
+  "STONE",
+];
 
 /********************
 Build board
@@ -28,6 +37,10 @@ function createBoard() {
 createBoard();
 const boxes = document.querySelectorAll(".box");
 
+function pickSecretWord() {
+  const randomIndex = Math.floor(Math.random() * WORDS.length);
+  return WORDS[randomIndex].split(""); // returns ["C","R","A","N","E"]
+}
 
 /********************
 Game state (changes)
@@ -36,6 +49,7 @@ let currentBox = 0;
 let currentRow = 1;
 let currentGuess = [];
 let gameOver = false;
+let secretWord = pickSecretWord();
 
 /********************
 Helpers (small math)
@@ -46,6 +60,7 @@ function rowStart(row) {
 function rowEnd(row) {
   return columns * row;
 }
+
 
 /********************
 UI helpers
@@ -68,6 +83,7 @@ function resetGame() {
     currentRow = 1;
     currentGuess = [];
     gameOver = false;
+    secretWord = pickSecretWord();
     // reset box content and styles visually
     boxes.forEach(box => {
         box.textContent = "";
