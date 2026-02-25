@@ -26,10 +26,16 @@ createBoard();
 
 const boxes = document.querySelectorAll(".box");
 
+/********************
+Game state (changes)
+ ********************/
 let currentBox = 0;   // Which tile index we’re typing into (0 to 29)
 let currentRow = 1;   // Which row we’re on (1 to 6)
 let currentGuess = []; // Letters typed in the current row
 
+/********************
+Helpers (small math)
+********************/
 function rowStart(row) {
   return columns * (row - 1);
 }
@@ -38,7 +44,13 @@ function rowEnd(row) {
   return columns * row;
 }
 
+/********************
+Input loop (event listener)
+********************/
+
+// keydown event, e = event object, 
 document.addEventListener("keydown", (e) => {
+  // e.key = key that was pressed
   const key = e.key;
 
   // BACKSPACE: delete the previous letter

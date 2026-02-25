@@ -3,13 +3,13 @@
 
 **Goal for today:** by the end of tdy, you’ll have a Wordle-looking grid on the screen and you’ll be able to type letters into it (and use Backspace to delete).
 
-You’re going to bounce between **HTML → CSS → JS** so I suggest opening all 3 tabs in your tab bar like so
+You’re going to bounce between **HTML → CSS → JS**  as well as the **tutorial.md** so I suggest opening all files in a split editor like so. Your tutorial on the on eside and 3 editing files in the other side
 
-![setup or images](./images/set-up%20example.png)
+![setup or images](./images/setup.png)
 
 ---
 
-## What you’re building today (end result)
+## What you’re building today
 ✅ A 6-row x 5-column grid (30 tiles total)  
 ✅ Typing letters fills tiles left-to-right  
 ✅ Backspace deletes the last letter  
@@ -28,6 +28,15 @@ Think of it like this:
 - HTML = **where things go**
 - CSS = **what they look like**
 - JS = **what they do**
+
+# Tiny Vocabulary (only the new stuff today)
+
+* **DOM**: the page, as JavaScript sees it (and can change it)
+* **querySelector**: find one element on the page
+* **querySelectorAll**: find a list of elements
+* **Event listener**: code that waits for something (like a key press)
+* **Loop (for loop)**: repeats code a number of times
+* **State**: variables that change while your program runs
 
 ---
 
@@ -130,7 +139,7 @@ Final result:
 <summary> <strong> <h1> 👀  02: Make the page LOOK like a Wordle board (CSS) </h1> </strong>  </summary>
 
 
-Before we create tiles, let’s set up the “grid area” so when tiles appear, they snap into place.
+BEFORE we create tiles, we need to set up the “grid area” so when tiles appear, they snap into place.
 
 Open `style.css` and add:
 
@@ -195,7 +204,7 @@ h1 {
 * `gap: 10px` gives spacing between tiles
 
 Right now, you still won’t see tiles  because we haven’t created them yet.
-But the board is “ready.”
+But now the board is “ready.”
 
 ---
 
@@ -341,6 +350,9 @@ We need to track where typing should go.
 Add:
 
 ```js
+/********************
+Game state (changes)
+ ********************/
 let currentBox = 0;   // Which tile index we’re typing into (0 to 29)
 let currentRow = 1;   // Which row we’re on (1 to 6)
 let currentGuess = []; // Letters typed in the current row
@@ -369,6 +381,9 @@ This part is surprisingly important: Wordle only lets you type **5 letters per r
 Add these helpers:
 
 ```js
+/********************
+Helpers (small math)
+********************/
 function rowStart(row) {
   return columns * (row - 1);
 }
@@ -400,34 +415,39 @@ So:
 <summary> <strong> <h1> 👂 07:  Listen for keyboard presses (JS) </h1> </strong>  </summary>
 
 
-Now we’ll respond when the student presses keys.
+Now we’ll respond when the player presses keys.
 
 Add:
 
 ```js
+/********************
+Input loop (event listener)
+********************/
+// keydown event, e = event object, 
 document.addEventListener("keydown", (e) => {
+  // e.key = key that was pressed
   const key = e.key;
 
   // Stop typing if the row is full
   if (currentBox >= rowEnd(currentRow)) return;
 
-  // Only accept letters A-Z
+  // Only accept letters A-Z ( uppercase or lowsercase)
   if (key.length === 1 && key.match(/[a-z]/i)) {
-    boxes[currentBox].textContent = key.toUpperCase();
-    currentGuess.push(key.toUpperCase());
+    boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
     currentBox++;
+    currentGuess = [...currentGuess, key.toUpperCase()];
   }
 });
 ```
 
-### Explain it like you’re teaching a friend
+### To simplify
 
 * `keydown` fires whenever a key is pressed
-* `e.key` is the exact key (like `"a"`, `"Enter"`, `"Backspace"`)
+* `e.key` is the exact key (like `"a"`, or later `"Enter"`, `"Backspace"`)
 * `key.length === 1` helps filter out keys like `"Shift"` or `"Enter"`
 * `match(/[a-z]/i)` means “only letters”
 * `boxes[currentBox].textContent = ...` puts the letter into the tile
-* `currentBox++` moves us to the next tile
+* `currentBox++` adds +1 to the value , moves us to the next tile
 
 ✅ Refresh and try typing. Letters should appear.
 
@@ -488,41 +508,21 @@ document.addEventListener("keydown", (e) => {
 
 ## 🎉 Checkpoint: You finished Day 1
 
-You now have:
+You now SHOULD have something that looks like this:
+
+![setup or images](./images/day1-ending.png)
 
 * a real Wordle board
 * typing that fills tiles
 * backspace deletion
 * row boundaries (5 letters max)
 
-This is already a “finished-feeling” mini product.
-
 ---
 
 <details>
 
-# Small “Try This” Challenges (optional, fun, and safe)
 
-1. **Make the tiles bigger**
-   Change `60px` to `70px` in `.game`.
 
-2. **Add a cursor effect**
-   Add a `.active` class to the current tile in JS (remove it from the old one).
-   Then style `.box.active { border-color: black; }`
-
-3. **Show what you’ve typed under the board**
-   Create a `<p class="debug"></p>` in HTML and update it in JS to display `currentGuess.join("")`.
-
----
-
-# Tiny Vocabulary (only the new stuff today)
-
-* **DOM**: the page, as JavaScript sees it (and can change it)
-* **querySelector**: find one element on the page
-* **querySelectorAll**: find a list of elements
-* **Event listener**: code that waits for something (like a key press)
-* **Loop (for loop)**: repeats code a number of times
-* **State**: variables that change while your program runs
 
 ---
 
@@ -533,8 +533,3 @@ Tomorrow you’ll add:
 * Enter key to “submit” a guess
 * a real secret word
 * and tile colors (green/yellow/gray)
-
-You’ll go from “typing simulator” → “actual Wordle rules.”
-
-```
-```
