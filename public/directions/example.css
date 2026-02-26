@@ -54,3 +54,34 @@ h1 {
     color: var(--white);
     text-transform: uppercase;
 }
+
+/* comomon styles for all states of box */
+.box.wrong, .box.correct, .box.inword {
+    color: var(--white);
+    transition: 0.5s ease-in-out;
+    transform: rotatex(180deg);
+}
+
+/* boxes styled based on state */
+.box.wrong {
+    background-color: var(--gray);
+    border-color: var(--gray);
+}
+
+.box.correct {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.box.inword {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+
+.box.correct > *,
+.box.wrong > *,
+.box.inword > * {
+    transition: 0.5s ease-in-out;
+    transform: rotateX(180deg);
+}

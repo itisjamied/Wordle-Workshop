@@ -434,8 +434,8 @@ document.addEventListener("keydown", (e) => {
   // Only accept letters A-Z ( uppercase or lowsercase)
   if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
-    currentBox++;
     currentGuess = [...currentGuess, key.toUpperCase()];
+    CurrentBox++;
   }
 });
 ```
@@ -488,7 +488,7 @@ document.addEventListener("keydown", (e) => {
 
   // LETTERS ONLY
   if (key.length === 1 && key.match(/[a-z]/i)) {
-    boxes[currentBox].textContent = key.toUpperCase();
+    boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
     currentGuess.push(key.toUpperCase());
     currentBox++;
   }

@@ -1,8 +1,8 @@
 
-# README 03 — Win • Lose • Restart (Make It Feel Complete)
+# README 03 — Win • Lose • Restart 
 
 **Goal for today:**  
-By the end of this lesson, your Wordle game will:
+By the end of this, your Wordle game will:
 
 ✅ Show a clean win message (no more alert popups)  
 ✅ Show a clean lose message (and reveal the word)  
@@ -10,31 +10,8 @@ By the end of this lesson, your Wordle game will:
 ✅ Fully reset with a restart button  
 ✅ Feel polished and complete  
 
-Yesterday we built:
-- secret word logic  
-- Enter to submit  
-- color feedback  
-- win + lose detection  
 
-Today we’re upgrading the **user experience** and cleaning things up.
-
----
-
-# Big Idea Today
-
-Right now your game works.
-
-But it doesn’t feel finished.
-
-Professional apps:
-- Don’t use `alert()`
-- Don’t reload the page
-- Don’t leave weird leftover state
-
-Today we’ll:
-- Add a message area
-- Replace alerts
-- Build a real reset system
+We’re mostly upgrading the **user experience** and cleaning things up.
 
 ---
 
