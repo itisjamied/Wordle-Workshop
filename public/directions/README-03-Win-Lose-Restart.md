@@ -13,9 +13,18 @@ By the end of this, your Wordle game will:
 
 We’re mostly upgrading the **user experience** and cleaning things up.
 
+# Vocabulary (New Today)
+
+* **UI (User Interface)** — What the user sees and interacts with
+* **Guard clause** — Early return that protects logic
+* **Reset state** — Returning variables to original values
+* **Reusable function** — A function built to be called multiple times
+* **Class toggle** — Adding/removing CSS classes dynamically
+
 ---
 
-# Step 1 — Add a Message Area (HTML)
+<details>
+  <summary><h1> 🗣️ Step 1 — Add a Message Area (HTML)</h1></summary>
 
 Open `index.html`.
 
@@ -26,58 +35,43 @@ Add this under your `.game` container:
 
 <div class="button" onclick="resetGame()">RESTART</div>
 ````
-
 ---
+</details>
 
-## Why This Is Better Than `alert()`
+<details>
 
-`alert()`:
+<summary><h1> 🎨 Step 2 — Style the Message + Button (CSS)</h1></summary>
 
-* Blocks the page
-* Looks old-school
-* Feels disconnected
-
-A message div:
-
-* Is part of your layout
-* Can be styled
-* Can animate
-* Feels modern
-
----
-
-# Step 2 — Style the Message + Button (CSS)
 
 Open `style.css`.
 
 Add:
 
 ```css
+ /* WIN SCREEN */
 .message {
-  margin-top: 20px;
-  padding: 12px 20px;
-  font-weight: bold;
-  border-radius: 6px;
-  background: #222;
-  color: white;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 2rem;
+    text-align: center;
 }
 
 .hidden {
   display: none;
 }
 
+ /* RESET BUTTON */
 .button {
-  margin-top: 15px;
-  padding: 10px 16px;
-  border: 2px solid black;
-  cursor: pointer;
-  font-weight: bold;
-  user-select: none;
+    color:var(--gray);
+    margin-top: 20px;
+    cursor: pointer;
 }
 
 .button:hover {
-  background: black;
-  color: white;
+    color: var(--white);
 }
 ```
 
@@ -89,18 +83,17 @@ Add:
 * `.button:hover` adds interaction feedback
 * `cursor: pointer` makes it feel clickable
 
-We don’t hide or show with inline styles.
-We toggle classes.
-
-That’s cleaner.
+We don’t hide or show with inline styles. We toggle classes.
 
 ---
+</details>
 
-# Step 3 — Replace alert() With Message Functions (JS)
+<details>
+<summary><h1>‼️ Step 3 — Replace alert() With Message Functions (JS)</h1></summary>
 
 Open `script.js`.
 
-First grab the message element:
+First grab the message element from the `DOM`:
 
 ```js
 const message = document.querySelector(".message");
@@ -121,23 +114,12 @@ function hideMessage() {
 ```
 
 ---
+</details>
 
-## Why Use Functions?
+<details>
+<summary><h1> 🙌 Step 4 — Update Win Logic</h1></summary>
 
-Instead of repeating:
 
-```js
-message.textContent = "You win!";
-message.classList.remove("hidden");
-```
-
-everywhere, we create reusable logic.
-
-That’s cleaner and more readable.
-
----
-
-# Step 4 — Update Win Logic
 
 Replace your `alert("You win!")` with:
 
@@ -152,7 +134,11 @@ function checkWin() {
 
 ---
 
-# Step 5 — Update Lose Logic
+</details>
+
+<details>
+<summary><h1> 👎 Step 5 — Update Lose Logic</h1></summary>
+
 
 Replace your lose alert with:
 
@@ -164,19 +150,12 @@ function checkLost() {
   }
 }
 ```
-
 ---
 
-## Why This Is Cleaner
+</details>
 
-* UI logic stays inside UI functions
-* Game logic stays inside game functions
-* The board doesn’t freeze because of an alert
-* Everything feels integrated
-
----
-
-# Step 6 — Make Sure Typing Stops After Game Ends
+<details>
+<summary><h1> 🛑 Step 6 — Make Sure Typing Stops After Game Ends</h1></summary>
 
 At the very top of your keydown listener, confirm you have:
 
@@ -186,21 +165,17 @@ if (gameOver) return;
 
 This is called a **guard clause**.
 
-It prevents:
-
-* Extra letters
-* Extra submits
-* Weird state bugs
-
-Professional code protects itself.
+This prevents: Extra letters, Extra submits, or Weird state bugs
 
 ---
+</details>
 
-# Step 7 — Build resetGame()
 
+<details>
+<summary><h1> 🔨 Step 7 — Build resetGame()</h1></summary>
 This is the most important part today.
 
-Add:
+Add this near the other game logic 
 
 ```js
 function resetGame() {
@@ -246,36 +221,13 @@ It resets **three categories**:
 * removes color classes
 * hides message
 
-If you miss one of these?
-The game will behave weirdly.
+If you miss one of these? The game will probably behave weirdly.
+</details>
 
-Resetting means restoring everything to its original condition.
+<details>
+<summary><h1> 🎉 Final Checkpoint — Your Game Is Complete </h1></summary>
 
----
 
-# Step 8 — Why This Structure Is Professional
-
-Notice what we did:
-
-We separated:
-
-* Game state
-* UI logic
-* Board logic
-
-We didn’t:
-
-* Reload the page
-* Rebuild the board
-* Duplicate code
-
-We reused what already exists.
-
-That’s how real apps scale.
-
----
-
-# 🎉 Final Checkpoint — Your Game Is Complete
 
 Your Wordle now:
 
@@ -293,57 +245,7 @@ You built a full interactive browser game.
 
 That’s not beginner-level anymore.
 
----
 
-# Optional Polish (For Students Who Finish Early)
-
-## 1) Add Animation When Showing Message
-
-```css
-.message {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-```
-
----
-
-## 2) Add a Shake Effect for Invalid Enter
-
-If Enter is pressed without 5 letters:
-
-```js
-if (key === "Enter") {
-  if (currentBox !== rowEnd(currentRow)) {
-    showMessage("Not enough letters!");
-    return;
-  }
-}
-```
-
----
-
-## 3) Add a “Play Again” Auto-Focus
-
-Scroll the board into view:
-
-```js
-gameContainer.scrollIntoView({ behavior: "smooth" });
-```
-
----
-
-# Vocabulary (New Today)
-
-* **UI (User Interface)** — What the user sees and interacts with
-* **Guard clause** — Early return that protects logic
-* **Reset state** — Returning variables to original values
-* **Reusable function** — A function built to be called multiple times
-* **Class toggle** — Adding/removing CSS classes dynamically
 
 ---
 
@@ -356,28 +258,6 @@ gameContainer.scrollIntoView({ behavior: "smooth" });
 * UI feedback
 * Reset systems
 
-This is the foundation of:
-
-* React apps
-* Mobile apps
-* Web games
-* Interactive dashboards
-
-You didn’t just “follow a tutorial.”
-
-You built a system.
 
 ---
-
-# Next Level Ideas (If You Want a README 04)
-
-* On-screen keyboard
-* Word validation dictionary API
-* Hard mode
-* Score tracking
-* Dark mode toggle
-* Animations per tile with delay
-
-If you want, I can also create a **README-CHALLENGES.md** for advanced students.
-
-```
+</details>

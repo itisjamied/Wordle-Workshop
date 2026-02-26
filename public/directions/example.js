@@ -4,6 +4,8 @@
 
 // 1) Get the game container from HTML
 const gameContainer = document.querySelector(".game");
+const message = document.querySelector(".message");
+console.log(message);
 
 // 2) Define board size
 const rows = 6;
@@ -52,6 +54,17 @@ function rowEnd(row) {
   return columns * row;
 }
 
+function showMessage(text) {
+  message.textContent = text;
+  message.classList.remove("hidden");
+  console.log(message);
+}
+
+function hideMessage() {
+  message.textContent = "";
+  message.classList.add("hidden");
+}
+
 /********************
 Game logic
  ********************/
@@ -61,14 +74,14 @@ let gameOver = false;
 function checkWin() {
   if (currentGuess.join("") === secretWord.join("")) {
     gameOver = true;
-    alert("You win!");
+     showMessage("🎉 You win!");
   }
 }
 
 function checkLost() {
   if (currentRow === rows && !gameOver) {
     gameOver = true;
-    alert("You lost! The word was " + secretWord.join(""));
+    showMessage("You lost! The word was " + secretWord.join(""));
   }
 }
 
@@ -95,6 +108,26 @@ function checkGuess(){
     if (!gameOver && currentRow === rows) {
     checkLost();
     }
+}
+
+function resetGame() {
+  // Reset game state
+  currentRow = 1;
+  currentBox = 0;
+  currentGuess = [];
+  gameOver = false;
+
+  // Pick new word
+  secretWord = pickSecretWord();
+
+  // Clear tiles
+  boxes.forEach(box => {
+    box.textContent = "";
+    box.classList.remove("correct", "inword", "wrong");
+  });
+
+  // Hide message
+  hideMessage();
 }
 
 /********************
