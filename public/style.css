@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=open+Sans:wght@300..800;1,3000..800&display=swap');
+
+:root{
+  --black: #111112;
+  --Gray: #3b3b3d;
+  --Green: #528c4d;
+  --yellow: #b59e3a;
+  --white: #ffffff;
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--black);
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+
+h1{
+  color: var(--black);
+  text-transform: uppercase;
+}
+
+.game{
+  width: 350px;
+  height: 420px;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.box{
+  border: 2px solid var(--Gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+ 
