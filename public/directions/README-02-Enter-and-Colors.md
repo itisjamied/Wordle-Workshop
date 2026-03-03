@@ -60,7 +60,7 @@ function pickSecretWord() {
 * `Math.random() * WORDS.length` scales it to the size of the list.
 * `Math.floor()` removes decimals.
 * `WORDS` is the **array** (a list) we just made.
-* `.split("")` turns `"CRANE"` into:
+* `.split("")` turns `"CRANE"` into: `"C","R","A","N","E"`;
 
 
 Then create the actual secret word, place with ur other game state `let` variables
@@ -155,25 +155,25 @@ Game logic
 function checkGuess(){
     // loop once per letter in the secret word
     for (let i = 0; i < secretWord.length; i++) {
-    // find correct index + elemtned ( based on index)
+    // find correct index + element ( based on index)
     const boxIndex = rowStart(currentRow) + i;
     const box = boxes[boxIndex];
 
     // get letter from "i" position in guess
     const letter = currentGuess[i];
 
-        //style accoridngly 
-        if (letter === secretWord[i]) {
-            box.classList.add("correct");
-        } else if (secretWord.includes(letter)) {
-            box.classList.add("inword");
-        } else {
-            box.classList.add("wrong");
-        }
+      //style accoridngly 
+      if (letter === secretWord[i]) {
+          box.classList.add("correct");
+      } else if (secretWord.includes(letter)) {
+          box.classList.add("inword");
+      } else {
+          box.classList.add("wrong");
+      }
     }
-    checkWin();
+      checkWin();
     if (!gameOver && currentRow === rows) {
-    checkLost();
+      checkLost();
     }
 }
 ```
@@ -181,11 +181,6 @@ function checkGuess(){
 ---
 
 # Let's break this function down
-
-We save where the start of the row is in `start`
-``` js
-const start = rowStart(currentRow);
-```
 
 We loop through each letter in the guess using another for-loop, similar to what we did to generate the boxes
 
@@ -197,7 +192,7 @@ For each position we....
 
 check / save the box we're in 
 ```js
-const box = boxes[start + i];
+ const box = boxes[boxIndex];
 ```
 check / save what letter is it
 ``` js

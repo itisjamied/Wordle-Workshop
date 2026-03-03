@@ -3,7 +3,7 @@
 
 **Goal for today:** by the end of tdy, you’ll have a Wordle-looking grid on the screen and you’ll be able to type letters into it (and use Backspace to delete).
 
-You’re going to bounce between **HTML → CSS → JS**  as well as the **tutorial.md** so I suggest opening all files in a split editor like so. Your tutorial on the on eside and 3 editing files in the other side
+You’re going to bounce between **HTML → CSS → JS**  as well as the **tutorial.md** so I suggest opening all files in a split editor like so. Your tutorial on the one side ( left ) and 3 editing files in the other side ( right )
 
 ![setup or images](./images/setup.png)
 
@@ -193,14 +193,14 @@ h1 {
 ### What you just did
 
 * `display: grid` turns `.game` into a **grid layout**
-* `grid-template-columns: repeat(5, 60px)` means:
+* `grid-template-columns: repeat(5, 1fr)` means:
 
   * “make 5 columns”
-  * “each one is 60px wide”
-* `grid-template-rows: repeat(6, 60px)` means:
+  * “each one is one share of the available space in a grid container”
+* `grid-template-rows: repeat(6, 1fr)` means:
 
   * “make 6 rows”
-  * “each one is 60px tall”
+  * “each one is one share of the available space in a grid container”
 * `gap: 10px` gives spacing between tiles
 
 Right now, you still won’t see tiles  because we haven’t created them yet.
@@ -308,6 +308,7 @@ Back to `style.css`, add:
     font-weight: bold;
     color: var(--white);
     text-transform: uppercase;
+    user-select: none;
 }
 ```
 
@@ -435,7 +436,7 @@ document.addEventListener("keydown", (e) => {
   if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
     currentGuess = [...currentGuess, key.toUpperCase()];
-    CurrentBox++;
+    currentBox++;
   }
 });
 ```
@@ -472,6 +473,10 @@ Update your event listener to include Backspace:
 document.addEventListener("keydown", (e) => {
   const key = e.key;
 
+  //////////////////////
+  // PREVIOUS CODE ⬆️
+  //////////////////////
+
   // BACKSPACE: delete the previous letter
   if (key === "Backspace") {
     // Don’t let them delete into the previous row
@@ -483,10 +488,15 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
+  //////////////////////
+  // PREVIOUS CODE ⬇️
+  //////////////////////
+
+
   // Stop typing if the row is full
   if (currentBox >= rowEnd(currentRow)) return;
 
-  // LETTERS ONLY
+   // Only accept letters A-Z ( uppercase or lowsercase)
   if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
     currentGuess.push(key.toUpperCase());
