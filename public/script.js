@@ -8,7 +8,7 @@ const gameContainer = document.querySelector(".game");
 const rows = 6;
 const column = 5;
 
-const words = ["MOONS", "CLOUDS", "PLANT", "SUNNY", "RAINS", "WINDS", "LIGHT"];
+const words = ["ARRAY", "INDDEX", "DEBUG", "ERROR", "BYTES", "ALIST", "LOGIC", "VALUE", "WHILE", "BREAK", "WHILE", "CODER", "GAMES"];
 
 function pickSecretWord(){
     const randomIndex = Math.floor(Math.random() * words.length);
@@ -58,7 +58,6 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if(key === "Enter"){
-    console.log("THis is workkkkk")
   if (currentbox === rowEnd(currentRow)){
     checkGuess();
   
@@ -86,7 +85,7 @@ let gameOver = false;
 function checkWin(){
   if(currentGuess.join("") === secretWord.join("")){
     gameOver = true;
-    alert("You win!");
+    // alert("You win!");
   }
 }
 
