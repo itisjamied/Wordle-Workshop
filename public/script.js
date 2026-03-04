@@ -3,16 +3,31 @@
 // 1) Get the game container from HTML
 
 const gameContainer = document.querySelector(".game");
-
+const message = document.querySelector(".message");
 // 2) Define board size
 const rows = 6;
 const column = 5;
 
-const words = ["ARRAY", "INDDEX", "DEBUG", "ERROR", "BYTES", "ALIST", "LOGIC", "VALUE", "WHILE", "BREAK", "WHILE", "CODER", "GAMES"];
+const words = [
+  "ARRAY",
+  "INDDEX",
+  "DEBUG",
+  "ERROR",
+  "BYTES",
+  "ALIST",
+  "LOGIC",
+  "VALUE",
+  "WHILE",
+  "BREAK",
+  "WHILE",
+  "CODER",
+  "GAMES",
+  "PAGES",
+];
 
-function pickSecretWord(){
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex].split("");
+function pickSecretWord() {
+  const randomIndex = Math.floor(Math.random() * words.length);
+  return words[randomIndex].split("");
 }
 
 let secretWord = pickSecretWord();
@@ -42,12 +57,20 @@ function rowEnd(row) {
   return column * row;
 }
 
+function showMessage(text) {
+  message.textContent = text;
+  message.classList.remove("hidden");
+}
+
+function hideMessage() {
+  message.textContent = "";
+  message.classList.add("hidden");
+}
 
 document.addEventListener("keydown", (e) => {
-  if(gameOver) return;
+  if (gameOver) return;
   // console.log(e);
   const key = e.key;
-
 
   if (key === "Backspace") {
     if (currentbox > rowStart(currentRow)) {
@@ -57,19 +80,19 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-  if(key === "Enter"){
-  if (currentbox === rowEnd(currentRow)){
-    checkGuess();
-  
-  if(!gameOver){
-    currentRow++;
-    currentGuess = [];
-    currentbox = rowStart(currentRow);
+  if (key === "Enter") {
+    if (currentbox === rowEnd(currentRow)) {
+      checkGuess();
+
+      if (!gameOver) {
+        currentRow++;
+        currentGuess = [];
+        currentbox = rowStart(currentRow);
+      }
     }
+    return;
   }
-  return;
-  }
-  if (currentbox >= rowEnd(currentRow)){ 
+  if (currentbox >= rowEnd(currentRow)) {
     return;
   }
   if (key.length === 1 && key.match(/[a-z]/i)) {
@@ -82,37 +105,52 @@ document.addEventListener("keydown", (e) => {
 
 let gameOver = false;
 
-function checkWin(){
-  if(currentGuess.join("") === secretWord.join("")){
+function checkWin() {
+  if (currentGuess.join("") === secretWord.join("")) {
     gameOver = true;
-    // alert("You win!");
+    showMessage("🎉 You win!");
   }
 }
 
-function checkLose(){
-  if(currentRow === rows && !gameOver){
+function checkLose() {
+  if (currentRow === rows && !gameOver) {
     gameOver = true;
-    alert("You lost! The word was" + secretWord.join(""));
+    showMessage("You lost! The word was " + secretWord.join("").toLowerCase());
   }
 }
 
-function checkGuess(){
-  for(let i = 0; i < secretWord.length; i++){
+function checkGuess() {
+  for (let i = 0; i < secretWord.length; i++) {
     const boxIndex = rowStart(currentRow) + i;
     const box = boxes[boxIndex];
 
     const letter = currentGuess[i];
 
-    if(letter === secretWord[i]){
+    if (letter === secretWord[i]) {
       box.classList.add("correct");
-    } else if(secretWord.includes(letter)){
+    } else if (secretWord.includes(letter)) {
       box.classList.add("inword");
-    }else{
+    } else {
       box.classList.add("wrong");
     }
   }
   checkWin();
-  if(!gameOver && currentRow === rows)
-    checkLose();
+  if (!gameOver && currentRow === rows) checkLose();
+}
+
+function resetGame() {
+  currentRow = 1;
+  currentGuess = [];
+  currentbox = 0;
+  gameOver = false;
+
+  secretWord = pickSecretWord();
+
+  boxes.forEach((box) => {
+    box.textContent = "";
+    box.classList.remove("correct", "inword", "wrong");
+  });
+
+  hideMessage();
 }
 console.log(currentGuess);

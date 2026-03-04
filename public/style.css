@@ -11,6 +11,9 @@
   --box: #707890;
 }
 
+* {
+  transition: all 0.5s;
+}
 body {
   width: 100vw;
   height: 100vh;
@@ -49,26 +52,50 @@ h1 {
   text-transform: uppercase;
   user-select: none;
   background-color: var(--box);
-    transition: all 0.5s;
-
+  transition: all 0.5s;
 }
 
-
-.box.wrong, .box.correct, .box.inword{
+.box.wrong,
+.box.correct,
+.box.inword {
   color: var(--white);
 }
 
-.box.wrong{
+.box.wrong {
   background-color: var(--gray);
-  border-color:var(--gray);
+  border-color: var(--gray);
 }
 
-.box.correct{
+.box.correct {
   background-color: var(--green);
-  border-color:var(--green);
+  border-color: var(--green);
 }
 
-.box.inword{
+.box.inword {
   background-color: var(--yellow);
-  border-color:var(--yellow);
+  border-color: var(--yellow);
+}
+
+.message {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  font-size: 2rem;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.button {
+  color: var(--gray);
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--white);
 }
