@@ -385,13 +385,7 @@ Add these helpers:
 /********************
 Helpers (small math)
 ********************/
-function rowStart(row) {
-  return columns * (row - 1);
-}
 
-function rowEnd(row) {
-  return columns * row;
-}
 ```
 
 ### What these return (examples)

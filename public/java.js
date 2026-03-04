@@ -56,6 +56,12 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keydown"), (e) => {
   const key = e.key;
 
+
+  //for (intiliazer; condition; update)
+
+  //or 
+  //for (let i = 0; i < rows * columns; i++)
+
   //////////////////////
   // PREVIOUS CODE ⬆️
   //////////////////////
@@ -71,3 +77,14 @@ document.addEventListener("keydown"), (e) => {
     return;
   }
 }
+ 
+// Stop typing if the row is full
+  if (currentBox >= rowEnd(currentRow)) return;
+
+  if (key.length === 1 && key.match(/[a-z]/i)) {
+    boxes[currentBox].innerHTML = <span class="letter">${ key.toUpperCase() } </span>;
+    currentGuess.push(key.toUpperCase());
+    currentBox++
+  }
+
+
