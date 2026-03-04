@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 :root {
-    --black: #111112;
+     --black: #111112;
     --gray: #3b3b3d;
     --green: #528c4d;
     --yellow: #b59e3a;
     --white: #ffffff;
 }
+
 body {
-    width: 100vw;
+     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -19,10 +20,12 @@ body {
     font-family: "Open Sans", sans-serif;
     font-weight: bold;
 }
-h1 {
+
+h1 { 
     color:var(--white);
     text-transform: uppercase;
 }
+
 .game {
     width: 350px;
     height: 420px;
@@ -41,4 +44,23 @@ h1 {
     color: var(--white);
     text-transform: uppercase;
     user-select: none;
+}
+/* comomon styles for all states of box */
+.box.wrong, .box.correct, .box.inword {
+    color: var(--white);
+}
+/* boxes styled based on state */
+.box.wrong {
+    background-color: var(--gray);
+    border-color: var(--gray);
+}
+
+.box.correct {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.box.inword {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
 }
