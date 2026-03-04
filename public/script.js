@@ -8,6 +8,14 @@ const gameContainer = document.querySelector(".game");
 const rows = 6;
 const column = 5;
 
+const words = ["MOONS", "CLOUDS", "PLANT", "SUNNY", "RAINS", "WINDS", "LIGHT"];
+
+function pickSecretWord(){
+    const randomIndex = Math.floor(Math.random() * words.length);
+    return words[randomIndex].split("");
+}
+
+let secretWord = pickSecretWord();
 // ****************** Build broad **********************/
 
 function createBoard() {
@@ -34,9 +42,13 @@ function rowEnd(row) {
   return column * row;
 }
 
+
 document.addEventListener("keydown", (e) => {
-  console.log(e);
+  if(gameOver) return;
+  // console.log(e);
   const key = e.key;
+
+
   if (key === "Backspace") {
     if (currentbox > rowStart(currentRow)) {
       currentbox--;
@@ -45,9 +57,22 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-
-  if (currentbox >= rowEnd(currentRow)) return;
-
+  if(key === "Enter"){
+    console.log("THis is workkkkk")
+  if (currentbox === rowEnd(currentRow)){
+    checkGuess();
+  
+  if(!gameOver){
+    currentRow++;
+    currentGuess = [];
+    currentbox = rowStart(currentRow);
+    }
+  }
+  return;
+  }
+  if (currentbox >= rowEnd(currentRow)){ 
+    return;
+  }
   if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentbox].innerHTML =
       `<span class="letter">${key.toUpperCase()}</span>`;
@@ -56,4 +81,39 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+let gameOver = false;
+
+function checkWin(){
+  if(currentGuess.join("") === secretWord.join("")){
+    gameOver = true;
+    alert("You win!");
+  }
+}
+
+function checkLose(){
+  if(currentRow === rows && !gameOver){
+    gameOver = true;
+    alert("You lost! The word was" + secretWord.join(""));
+  }
+}
+
+function checkGuess(){
+  for(let i = 0; i < secretWord.length; i++){
+    const boxIndex = rowStart(currentRow) + i;
+    const box = boxes[boxIndex];
+
+    const letter = currentGuess[i];
+
+    if(letter === secretWord[i]){
+      box.classList.add("correct");
+    } else if(secretWord.includes(letter)){
+      box.classList.add("inword");
+    }else{
+      box.classList.add("wrong");
+    }
+  }
+  checkWin();
+  if(!gameOver && currentRow === rows)
+    checkLose();
+}
 console.log(currentGuess);

@@ -50,3 +50,23 @@ h1 {
   user-select: none;
   background-color: var(--box);
 }
+
+
+.box.wrong, .box.correct, .box.inword{
+  color: var(--white);
+}
+
+.box.wrong{
+  background-color: var(--gray);
+  border-color:var(--gray);
+}
+
+.box.correct{
+  background-color: var(--green);
+  border-color:var(--green);
+}
+
+.box.inword{
+  background-color: var(--yellow);
+  border-color:var(--yellow);
+}
