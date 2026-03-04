@@ -47,4 +47,52 @@ h1{
   user-select: none;
 }
 
+.box.wrong{
+  background-color: var(--Gray);
+  border-color: var(--Gray);
+}
+
+.box.correct{
+  background-color: var(--Green);
+  border-color: var(--Green);
+}
+
+.box.inword{
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.box.wrong, .box.correct, .box.inword{
+  color: var(--white);0
+  transition: 0.5s ease-in-out;
+  transform: rotateX(180deg);
+}
+
+.box.wrong, .box.correct, .box.inword{
+  transform: rotateX(360deg);
+}
+
+.message{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  font-size: 2rem;
+  text-align: center;
+}
  
+.hidden{
+  display: none;
+}
+
+.button{
+  color: var(--Gray);
+  margin-top: 20px;
+  cursor: pointer;
+
+}
+ 
+.button:hover{
+  color: var(--white);
+} 
