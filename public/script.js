@@ -1,13 +1,13 @@
-const gamecontainer = document.querySelector(".game");
+const gameContainer = document.querySelector(".game");
 
 const rows = 6;
 const columns = 5;
 //THE ; IN THE FUNCTION NAME WAS CAUSING AN ERROR, ADDED IT AND IT WORKS NOW
-Function. createBoard(); {
+function createBoard() {
     for (let i = 0; i < rows * columns; i++) {
-        const box = document.createElement("div");
-        box.classname = "box";
-        gamecontainer.appendChild(box);
+      const box = document.createElement("div");
+      box.className = "box";
+      gameContainer.appendChild(box);
     }
 }
 
@@ -18,15 +18,16 @@ let currentBox = 0;
 let currentRow = 1;
 let currentGuess = [];
 
-function rowStart() {
+function rowStart(row) {
   return columns* (row - 1);
 }
 
-function rowEnd() {
-  return columns* row;
+function rowEnd(row) {
+  return columns * row;
 }
 
 document.addEventListener("keydown", (e) => {
+  console.log("key")
   const key = e.key;
   
   if (currentBox >= rowEnd(currentRow)) return;
@@ -47,6 +48,5 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
-
 
 });
