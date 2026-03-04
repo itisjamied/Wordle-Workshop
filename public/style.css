@@ -26,8 +26,8 @@ body {
     font-weight: bold;
 }
 
-h1 {
-    color: var(--white);
+h1 { 
+    color:var(--white);
     text-transform: uppercase;
 }
 
@@ -35,7 +35,7 @@ h1 {
 
 .game {
     /* determine size */
-    width: 350px
+    width: 350px;
     height: 420px;
     /* create grid */
     display: grid;
@@ -56,4 +56,24 @@ h1 {
     color: var(--white);
     text-transform: uppercase;
     user-select: none;
+}
+
+/* common styles for all states of box */
+.box.wrong, .box.correct, .box.inword {
+    color: var(--white);
+}
+/* boxes styled based on state */
+.box.wrong {
+    background-color: var(--gray);
+    border-color: var(--gray);
+}
+
+.box.correct {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.box.inword {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
 }
