@@ -4,13 +4,14 @@
 
 const gameContainer = document.querySelector(".game");
 const message = document.querySelector(".message");
+const button = document.querySelector(".button");
 // 2) Define board size
 const rows = 6;
 const column = 5;
 
 const words = [
   "ARRAY",
-  "INDDEX",
+  "INDEX",
   "DEBUG",
   "ERROR",
   "BYTES",
@@ -24,6 +25,68 @@ const words = [
   "GAMES",
   "PAGES",
 ];
+
+// ************************* THIS IS FOR API WORK *******************
+
+// CHECK IF THAT IS A REAL WORDS ///
+
+// async function isWordReal(word) {
+//   try {
+//     const response = await fetch(
+//       `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`,
+//     );
+
+//     if (!response.ok) {
+//       console.log(`${word} is not a real word.`);
+//       return false;
+//     }
+
+//     const data = await response.json();
+
+//     console.log(data);
+//     const wordData = {
+//       word: data[0].word,
+//       pronunciation: data[0].phonectics[0]?.text || "N/A",
+//       definition: data[0].meanings[0]?.defitions[0]?.definition || "N/A",
+//     };
+
+//     console.log(wordData);
+
+//     return true;
+//   } catch (error) {
+//     console.log("Error");
+//     return false;
+//   }
+// }
+
+async function isWordReal(word) {
+  try {
+    const response = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`,
+    );
+
+    // if response is 404, then it's not a word, return false
+    if (!response.ok) {
+      console.log(`${word} is not a real word.`);
+      return false;
+    }
+
+    const data = await response.json();
+    console.log(data);
+    const wordData = {
+      word: data[0].word,
+      pronunciation: data[0].phonetics?.[0]?.text || "N/A",
+      definitions: data[0].meanings[0]?.definitions[0].definition || "N/A",
+    };
+
+    console.log(wordData);
+
+    return true;
+  } catch (error) {
+    console.error("API error:", error);
+    return false;
+  }
+}
 
 function pickSecretWord() {
   const randomIndex = Math.floor(Math.random() * words.length);
@@ -109,6 +172,7 @@ function checkWin() {
   if (currentGuess.join("") === secretWord.join("")) {
     gameOver = true;
     showMessage("🎉 You win!");
+    button.classList.remove("hidden");
   }
 }
 
@@ -116,16 +180,21 @@ function checkLose() {
   if (currentRow === rows && !gameOver) {
     gameOver = true;
     showMessage("You lost! The word was " + secretWord.join("").toLowerCase());
+    button.classList.remove("hidden");
   }
 }
-
-function checkGuess() {
+// THIS IS WHERE THE ERROR IS FIXED THIS AS SOON AS POSSIBLE //
+async function checkGuess() {
+  const guessWord = currentGuess.join("");
+  const valid = await isWordReal(guessWord);
+  if (!valid) {
+    currentGuess = [];
+  }
   for (let i = 0; i < secretWord.length; i++) {
     const boxIndex = rowStart(currentRow) + i;
     const box = boxes[boxIndex];
 
     const letter = currentGuess[i];
-
     if (letter === secretWord[i]) {
       box.classList.add("correct");
     } else if (secretWord.includes(letter)) {
@@ -136,6 +205,8 @@ function checkGuess() {
   }
   checkWin();
   if (!gameOver && currentRow === rows) checkLose();
+
+  console.log(valid);
 }
 
 function resetGame() {
@@ -150,7 +221,7 @@ function resetGame() {
     box.textContent = "";
     box.classList.remove("correct", "inword", "wrong");
   });
-
+  button.classList.add("hidden");
   hideMessage();
 }
 console.log(currentGuess);
