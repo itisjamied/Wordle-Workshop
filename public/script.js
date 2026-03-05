@@ -5,59 +5,38 @@
 const gameContainer = document.querySelector(".game");
 const message = document.querySelector(".message");
 const button = document.querySelector(".button");
+const error = document.querySelector(".error");
 // 2) Define board size
 const rows = 6;
 const column = 5;
 
-const words = [
-  "ARRAY",
-  "INDEX",
-  "DEBUG",
-  "ERROR",
-  "BYTES",
-  "ALIST",
-  "LOGIC",
-  "VALUE",
-  "WHILE",
-  "BREAK",
-  "WHILE",
-  "CODER",
-  "GAMES",
-  "PAGES",
-];
+// const words = [
+//   "ARRAY",
+//   "INDEX",
+//   "DEBUG",
+//   "ERROR",
+//   "BYTES",
+//   "ALIST",
+//   "LOGIC",
+//   "VALUE",
+//   "WHILE",
+//   "BREAK",
+//   "WHILE",
+//   "CODER",
+//   "GAMES",
+//   "PAGES",
+// ];
 
-// ************************* THIS IS FOR API WORK *******************
+async function randomWord() {
+  const response = await fetch(
+    "https://random-word-api.herokuapp.com/word?length=5",
+  );
 
-// CHECK IF THAT IS A REAL WORDS ///
+  const data = await response.json();
+  console.log(data[0].toUpperCase().split(""));
 
-// async function isWordReal(word) {
-//   try {
-//     const response = await fetch(
-//       `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`,
-//     );
-
-//     if (!response.ok) {
-//       console.log(`${word} is not a real word.`);
-//       return false;
-//     }
-
-//     const data = await response.json();
-
-//     console.log(data);
-//     const wordData = {
-//       word: data[0].word,
-//       pronunciation: data[0].phonectics[0]?.text || "N/A",
-//       definition: data[0].meanings[0]?.defitions[0]?.definition || "N/A",
-//     };
-
-//     console.log(wordData);
-
-//     return true;
-//   } catch (error) {
-//     console.log("Error");
-//     return false;
-//   }
-// }
+  return data[0].toUpperCase().split("");
+}
 
 async function isWordReal(word) {
   try {
@@ -83,17 +62,13 @@ async function isWordReal(word) {
 
     return true;
   } catch (error) {
-    console.error("API error:", error);
+    console.error(error);
+    currentGuess = [];
     return false;
   }
 }
 
-function pickSecretWord() {
-  const randomIndex = Math.floor(Math.random() * words.length);
-  return words[randomIndex].split("");
-}
-
-let secretWord = pickSecretWord();
+let secretWord = await randomWord();
 // ****************** Build broad **********************/
 
 function createBoard() {
@@ -130,7 +105,7 @@ function hideMessage() {
   message.classList.add("hidden");
 }
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", async (e) => {
   if (gameOver) return;
   // console.log(e);
   const key = e.key;
@@ -145,7 +120,23 @@ document.addEventListener("keydown", (e) => {
   }
   if (key === "Enter") {
     if (currentbox === rowEnd(currentRow)) {
-      checkGuess();
+      const valid = await isWordReal(currentGuess.join(""));
+      if (valid) {
+        checkGuess();
+        error.classList.add("non-opacity");
+      } else if (!valid) {
+        currentbox = currentbox - 5;
+        currentGuess = [];
+        currentRow--;
+
+        for (let i = currentbox; i < rowEnd(currentRow + 1); i++) {
+          boxes[i].textContent = "";
+        }
+        console.log(boxes[0].textContent);
+        console.log(boxes);
+
+        error.classList.remove("non-opacity");
+      }
 
       if (!gameOver) {
         currentRow++;
@@ -163,6 +154,9 @@ document.addEventListener("keydown", (e) => {
       `<span class="letter">${key.toUpperCase()}</span>`;
     currentGuess = [...currentGuess, key.toUpperCase()];
     currentbox++;
+    console.log(`currentRow: ${currentRow}`);
+    console.log(`currentGuess: ${currentGuess}`);
+    console.log(`currentbox: ${currentbox}`);
   }
 });
 
@@ -185,11 +179,6 @@ function checkLose() {
 }
 // THIS IS WHERE THE ERROR IS FIXED THIS AS SOON AS POSSIBLE //
 async function checkGuess() {
-  const guessWord = currentGuess.join("");
-  const valid = await isWordReal(guessWord);
-  if (!valid) {
-    currentGuess = [];
-  }
   for (let i = 0; i < secretWord.length; i++) {
     const boxIndex = rowStart(currentRow) + i;
     const box = boxes[boxIndex];
@@ -205,17 +194,15 @@ async function checkGuess() {
   }
   checkWin();
   if (!gameOver && currentRow === rows) checkLose();
-
-  console.log(valid);
 }
 
-function resetGame() {
+async function resetGame() {
   currentRow = 1;
   currentGuess = [];
   currentbox = 0;
   gameOver = false;
 
-  secretWord = pickSecretWord();
+  secretWord = await randomWord();
 
   boxes.forEach((box) => {
     box.textContent = "";
@@ -225,3 +212,4 @@ function resetGame() {
   hideMessage();
 }
 console.log(currentGuess);
+window.resetGame = resetGame;

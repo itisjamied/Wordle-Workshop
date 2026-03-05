@@ -99,3 +99,14 @@ h1 {
 .button:hover {
   color: var(--white);
 }
+
+.error.non-opacity {
+  opacity: 0;
+}
+
+.error {
+  color: rgb(255, 126, 126);
+  word-wrap: var(--white);
+  -webkit-text-stroke: white;
+  opacity: 1;
+}
