@@ -75,13 +75,13 @@ let gameOver = false;
 function checkWin() {
   if (currentGuess.join("") === secretWord.join("")) {
     gameOver = true;
-    alert("You win!");
+    showMessage("🎉 You win!");
   }
 }
 function checkLost() {
   if (currentRow === rows && !gameOver) {
     gameOver = true;
-    alert("You lost! The word was " + secretWord.join(""));
+    showMessage("You lost! The word was " + secretWord.join(""));
   }
 }
 function checkGuess(){
@@ -117,4 +117,33 @@ function checkGuess(){
 // "if all else fails, add the css class `wrong` to the letter"
  } else {
       box.classList.add("wrong");
+    }
+
+    const message = document.querySelector(".message");
+    function showMessage(text) {
+        message.textContent = text;
+        message.classList.remove("hidden");
+    }
+    function hideMessage() {
+        message.textContent = "";
+        message.classList.add("hidden");
+    }
+    function resetGame() {
+    // Reset game state
+    currentRow = 1;
+    currentBox = 0;
+    currentGuess = [];
+    gameOver = false;
+
+    // Pick new word
+    secretWord = pickSecretWord();
+
+    // Clear tiles
+    boxes.forEach(box => {
+        box.textContent = "";
+        box.classList.remove("correct", "inword", "wrong");
+    });
+
+    // Hide message
+    hideMessage();
     }
