@@ -68,7 +68,17 @@ async function isWordReal(word) {
   }
 }
 
-let secretWord = await randomWord();
+async function getWord(){
+      const ranWord = await randomWord()
+      while(!isWordReal(ranWord.join(""))){
+        console.log("The word is not valid")
+        ranWord = randomWord()
+      }
+      console.log("THE WORD IS VALID NOW")
+      return ranWord;
+    }
+
+let secretWord = await getWord();
 // ****************** Build broad **********************/
 
 function createBoard() {
@@ -82,7 +92,6 @@ function createBoard() {
 createBoard();
 
 const boxes = document.querySelectorAll(".box");
-console.log(boxes);
 let currentbox = 0;
 let currentRow = 1;
 let currentGuess = [];
@@ -107,7 +116,6 @@ function hideMessage() {
 
 document.addEventListener("keydown", async (e) => {
   if (gameOver) return;
-  // console.log(e);
   const key = e.key;
 
   if (key === "Backspace") {
@@ -132,8 +140,6 @@ document.addEventListener("keydown", async (e) => {
         for (let i = currentbox; i < rowEnd(currentRow + 1); i++) {
           boxes[i].textContent = "";
         }
-        console.log(boxes[0].textContent);
-        console.log(boxes);
 
         error.classList.remove("non-opacity");
       }
@@ -154,9 +160,6 @@ document.addEventListener("keydown", async (e) => {
       `<span class="letter">${key.toUpperCase()}</span>`;
     currentGuess = [...currentGuess, key.toUpperCase()];
     currentbox++;
-    console.log(`currentRow: ${currentRow}`);
-    console.log(`currentGuess: ${currentGuess}`);
-    console.log(`currentbox: ${currentbox}`);
   }
 });
 
@@ -211,5 +214,4 @@ async function resetGame() {
   button.classList.add("hidden");
   hideMessage();
 }
-console.log(currentGuess);
 window.resetGame = resetGame;
