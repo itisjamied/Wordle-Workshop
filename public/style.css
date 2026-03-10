@@ -10,7 +10,7 @@
     --white: #ffffff; 
 }
  /* A default to center things dont hug the edges */ 
-body {
+body{
 
     width: 100vw;
     height: 100vh;
@@ -18,7 +18,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--black);
+    background-color: #111111;
     margin: 0;
     font-family: "open Sans", sans-serif;
     font-weight: bold;
@@ -32,12 +32,28 @@ h1 {
 
 /* The board container */ 
 
-.game { 
+.game {
     /* determine size*/
     width: 350px;
     height: 420px;
     /*create grid*/
     display: grid;
-    grid-template-columns: repeat(5,1fr);
-    grid-template-rows: repeat)6,1fr);
-    gap: 5px
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+}
+
+.box {
+    background-color: #309afc;
+    border: 2px solid var(--gray);
+    /* center text in box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* style text */
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-transform: uppercase;
+    user-select: none;
+}
