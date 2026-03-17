@@ -36,4 +36,15 @@ h1 {
     gap: 5px;
 }
 
+.box {
+    border: 2px solid var(--gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--white);
+    text-transform: uppercase;
+    user-select: none;
+}

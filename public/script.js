@@ -8,3 +8,8 @@ function createBoard() {
     gameContainer.appendChild(box);
   }
 }
+createBoard(); const boxes = document.querySelectorAll(".box");
+
+let currentBox = 0;
+let currentRow = 1;
+let currentGuess = [];
