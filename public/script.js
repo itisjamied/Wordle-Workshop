@@ -1,4 +1,5 @@
 const gameContainer = document.querySelector(".game");
+const WORDS = ["CRANE", "PLANT", "MOUSE", "TRAIN", "LIGHT"];
 const rows = 6;
 const columns = 5;
 function createBoard() {
@@ -9,10 +10,15 @@ function createBoard() {
   }
 }
 createBoard(); const boxes = document.querySelectorAll(".box");
+function PEACE() {
+  const randomIndex = Math.floor(Math.random() * WORDS.length);
+  return WORDS[randomIndex].split("");
+}
 
 let currentBox = 0;
 let currentRow = 1;
 let currentGuess = [];
+let secretWord = PEACE();
 
 function rowStart(row) {
   return columns * (row - 1);
@@ -21,7 +27,6 @@ function rowStart(row) {
 function rowEnd(row) {
   return columns * row;
 }
-
 
 document.addEventListener("keydown", (e) => {
   const key = e.key;
@@ -38,3 +43,4 @@ document.addEventListener("keydown", (e) => {
     currentBox++;
   }
 });
+
