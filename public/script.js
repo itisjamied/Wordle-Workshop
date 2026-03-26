@@ -28,7 +28,7 @@ function rowEnd(row) {
   return columns * row;
 }
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", (e) => { 
   const key = e.key;
    if (key === "Backspace") { if (currentBox > rowStart(currentRow)) {
       currentBox--;
@@ -37,6 +37,17 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
+
+  if (key === "Enter") {  if (currentBox === rowEnd(currentRow)) {
+    checkGuess();
+    if (!gameOver) {
+      currentRow++;
+      currentGuess = [];
+      currentBox = rowStart(currentRow);
+    }
+  }
+  return;
+}
   if (currentBox >= rowEnd(currentRow)) return;if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentBox].innerHTML = `<span class="letter">${ key.toUpperCase() }</span>`;
     currentGuess = [...currentGuess, key.toUpperCase()];
@@ -44,3 +55,8 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+
+
+function checkGuess(){
+
+}
