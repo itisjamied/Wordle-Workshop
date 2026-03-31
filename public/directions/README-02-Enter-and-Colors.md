@@ -50,7 +50,7 @@ const WORDS = ["CRANE", "PLANT", "MOUSE", "TRAIN", "LIGHT"];
 Now create a function to pick one randomly: place under `createBoard();` function
 
 ```js
-function pickSecretWord() {
+function secretword() {
   const randomIndex = Math.floor(Math.random() * WORDS.length);
   return WORDS[randomIndex].split("");
 }
@@ -66,7 +66,7 @@ function pickSecretWord() {
 Then create the actual secret word, place with ur other game state `let` variables
 
 ```js
-let secretWord = pickSecretWord();
+let secretWord = secretword();
 ```
 
 `secretWord` might return something like 

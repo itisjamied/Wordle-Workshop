@@ -186,7 +186,7 @@ function resetGame() {
   gameOver = false;
 
   // Pick new word
-  secretWord = pickSecretWord();
+  secretWord = secretword();
 
   // Clear tiles
   boxes.forEach(box => {
