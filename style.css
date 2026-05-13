@@ -4,6 +4,7 @@
     --gray: #3b3b3d;
     --yellow: #b59e3a;
     --white: #ffffffff;
+    --green: #236f21;
 }
 
 body {
@@ -48,4 +49,33 @@ h1 {
     color: var(--white);
     text-transform: uppercase;
     user-select: none;
+}
+
+
+.box.Wrong, .box.Correct, .box.Inword {
+    color: var(--white);
+    transition: 0.5s ease-in-out;
+    transform: rotateX(180deg);
+}
+
+.box.Wrong {
+    background-color: var(--gray);
+    border-color: var(--gray);
+}
+
+.box.Correct {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+.box.Inword {
+    background-color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+/* flip letter back */
+.box.Correct,
+.box.Inword,
+.box.Wrong {
+  transform: rotateX(360deg);
 }

@@ -12,14 +12,22 @@ function createBoard() {
 }
 createBoard();
 
+function pickSecretWord() {
+    const randomIndex = Math.floor(Math.random() * WORDS.length);
+    return WORDS[randomIndex].split("");
+}
+
+
 const boxes = document.querySelectorAll(".box");
 
 //Game State
 let currentBox = 0;
 let currentRow = 1;
 let currentGuess = [];
+const WORDS = ["CRANE", "PLANT", "MOUSE", "TRAIN", "LIGHT"];
+let secretWord = pickSecretWord();
 
-//helpers
+//Helpers
 function rowStart(row) {
   return columns * (row - 1);
 }
@@ -28,21 +36,82 @@ function rowEnd(row) {
   return columns * row;
 }
 
+let gameOver = false;
+
+function checkWin() {
+  if (currentGuess.join("") === secretWord.join("")) {
+    gameOver = true;
+    alert("You win!");
+  }
+}
+
+function checkLost() {
+  if (currentRow === rows && !gameOver) {
+    gameOver = true;
+    alert("You lost! The word was " + secretWord.join(""));
+  }
+}
+
+
+function checkGuess() {
+    for (let i = 0;   i < secretWord.length;   i++) {
+        const boxIndex = rowStart(currentRow) + i;
+        const box = boxes[boxIndex];
+        const letter = currentGuess[i];
+
+        if (letter === secretWord[i]) {
+            box.classList.add("Correct");
+        } else if (secretWord.includes(letter)) {
+            box.classList.add("Inword");
+        } else {
+            box.classList.add("Wrong");
+        }
+    }
+    checkWin();
+    if (!gameOver && currentRow === rows) {
+    checkLost();
+    }
+}
+
+
+
+
 
 //Typing Presses
 document.addEventListener("keydown", (e) => {
+    console.log(gameOver);
+    if (gameOver) return;
     const key = e.key;
 
     if (key === "Backspace") {
+        console.log("Backspace")
         if (currentBox > rowStart(currentRow)) {
             currentBox--;
             boxes[currentBox].textContent = "";
-            currentGuess,pop();
+            currentGuess.pop();
         }
         return;
     }
     
-    if (currentBox >= rowEnd(currentRow)) return;
+    //  if (currentBox >= rowEnd(currentRow)) return;
+
+    if (key === "Enter") {
+     console.log(currentBox)
+     console.log(rowEnd(currentRow))
+
+        if (currentBox === rowEnd(currentRow)) {
+            console.log("checkingend")
+            checkGuess();
+
+            if (!gameOver) {
+                currentRow++;
+                currentGuess = [];
+                currentBox = rowStart(currentRow);
+            }
+        }
+        return;
+    }
+
 
     if (key.length === 1 && key.match(/[a-z]/i)) {
         boxes[currentBox].innerHTML = `<span class="letter"> ${key.toUpperCase() } </span>`;
