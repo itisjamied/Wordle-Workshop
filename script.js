@@ -111,8 +111,6 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  if (currentBox >= rowEnd(currentRow)) return;
-
   if (key === "Enter") {
     console.log(currentBox);
     console.log(rowEnd(currentRow));
@@ -129,6 +127,8 @@ document.addEventListener("keydown", (e) => {
     }
     return;
   }
+
+  if (currentBox >= rowEnd(currentRow)) return;
 
   if (key.length === 1 && key.match(/[a-z]/i)) {
     boxes[currentBox].innerHTML =
