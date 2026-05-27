@@ -1,76 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 :root {
-    --black: #111112;
-    --gray: #3b3b3d;
-    --yellow: #b59e3a;
-    --white: #ffffffff;
-    --green: #236f21;
+  --black: #111112;
+  --gray: #3b3b3d;
+  --yellow: #b59e3a;
+  --white: #ffffffff;
+  --green: #236f21;
 }
 
 body {
-    width: 100vw;
-    height: 100vw;
+  width: 100vw;
+  height: 100vw;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    background-color: var(--black);
-    margin: 0;
-    font-family: "Open Sans", sans-serif;
-    font-weight: bold;
+  background-color: var(--black);
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
 }
 
 h1 {
-    color: var(--white);
-    text-transform: uppercase;
+  color: var(--white);
+  text-transform: uppercase;
 }
 
 .game {
-    width: 350px;
-    height: 420px;
+  width: 350px;
+  height: 420px;
 
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 5px;
 }
 
 .box {
-    border: 2px solid var(--gray);
+  border: 2px solid var(--gray);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--white);
-    text-transform: uppercase;
-    user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--white);
+  text-transform: uppercase;
+  user-select: none;
 }
 
-
-.box.Wrong, .box.Correct, .box.Inword {
-    color: var(--white);
-    transition: 0.5s ease-in-out;
-    transform: rotateX(180deg);
+.box.Wrong,
+.box.Correct,
+.box.Inword {
+  color: var(--white);
+  transition: 0.5s ease-in-out;
+  transform: rotateX(180deg);
 }
 
 .box.Wrong {
-    background-color: var(--gray);
-    border-color: var(--gray);
+  background-color: var(--gray);
+  border-color: var(--gray);
 }
 
 .box.Correct {
-    background-color: var(--green);
-    border-color: var(--green);
+  background-color: var(--green);
+  border-color: var(--green);
 }
 
 .box.Inword {
-    background-color: var(--yellow);
-    border-color: var(--yellow);
+  background-color: var(--yellow);
+  border-color: var(--yellow);
 }
 
 /* flip letter back */
@@ -78,4 +79,30 @@ h1 {
 .box.Inword,
 .box.Wrong {
   transform: rotateX(360deg);
+}
+
+/* Win Screen */
+.message {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--white);
+  font-size: 2rem;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Reset Button */
+.button {
+  color: var(--gray);
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--white);
 }
