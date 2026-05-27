@@ -23,7 +23,28 @@ const boxes = document.querySelectorAll(".box");
 let currentBox = 0;
 let currentRow = 1;
 let currentGuess = [];
-const WORDS = ["CRANE", "PLANT", "MOUSE", "TRAIN", "LIGHT"];
+const WORDS = [
+  "CRANE",
+  "PLANT",
+  "MOUSE",
+  "TRAIN",
+  "LIGHT",
+  "BRICK",
+  "SNAKE",
+  "GHOST",
+  "BREAD",
+  "CLOUD",
+  "PLANE",
+  "SWORD",
+  "SHIELD",
+  "WATER",
+  "FLAME",
+  "EARTH",
+  "MONEY",
+  "HEART",
+  "DREAM",
+  "NIGHT",
+];
 let secretWord = pickSecretWord();
 
 //Helpers
